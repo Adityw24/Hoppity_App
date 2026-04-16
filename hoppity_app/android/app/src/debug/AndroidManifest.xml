@@ -1,0 +1,5 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="in.hoppity.app">
+    <!-- Allows debug builds to use cleartext for localhost (hot reload) -->
+    <application android:usesCleartextTraffic="true" />
+</manifest>

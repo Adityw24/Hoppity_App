@@ -1,0 +1,7 @@
+# Copy this file to local.properties and fill in your values
+# DO NOT commit local.properties to git
+sdk.dir=/path/to/your/Android/sdk
+flutter.sdk=/path/to/your/flutter/sdk
+flutter.buildMode=release
+flutter.versionName=1.0.0
+flutter.versionCode=1

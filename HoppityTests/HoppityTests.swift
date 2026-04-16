@@ -5,33 +5,45 @@
 //  Created by Sabyasachi Biswas on 16/04/26.
 //
 
-import XCTest
+import Foundation
+import Testing
+@testable import Hoppity
 
-final class HoppityTests: XCTestCase {
+struct HoppityTests {
+    @Test
+    func recordingHopCompletesGoalAndAdvancesStreak() {
+        let progress = HopProgress(
+            dailyGoal: 3,
+            hopCount: 2,
+            streakCount: 4,
+            lastHopDate: "2026-04-16"
+        )
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        let updated = progress.recordHop(on: fixedDate(day: 16))
+
+        #expect(updated.hopCount == 3)
+        #expect(updated.streakCount == 5)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    @Test
+    func rollingForwardClearsIncompleteDay() {
+        let progress = HopProgress(
+            dailyGoal: 5,
+            hopCount: 2,
+            streakCount: 3,
+            lastHopDate: "2026-04-16"
+        )
+
+        let updated = progress.rollForwardIfNeeded(today: fixedDate(day: 17))
+
+        #expect(updated.hopCount == 0)
+        #expect(updated.streakCount == 0)
+        #expect(updated.lastHopDate == "2026-04-17")
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-        // XCTest Documentation
-        // https://developer.apple.com/documentation/xctest
+    private func fixedDate(day: Int) -> Date {
+        let calendar = Calendar(identifier: .gregorian)
+        let components = DateComponents(calendar: calendar, year: 2026, month: 4, day: day)
+        return components.date!
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }
